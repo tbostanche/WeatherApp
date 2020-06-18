@@ -5,7 +5,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class GUIDriver extends Application {
-  private static final int WINDOW_WIDTH = 1380;
+  private static final int WINDOW_WIDTH = 800;
   private static final int WINDOW_HEIGHT = 800;
   
  

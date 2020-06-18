@@ -4,7 +4,10 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.BodyHandlers;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
@@ -29,7 +32,9 @@ public class LocationManager {
     locations.put("London", new Location("2643743", 51.50853, -0.12574, "London", "GB"));
   }
   
-  
+  public Set<String> getAllLocations() {
+    return locations.keySet();
+  }
 
   /**
    * Returns the current weather of a given city in the form of a Weather object
@@ -59,9 +64,10 @@ public class LocationManager {
     JSONObject weatherData = (JSONObject) weatherArray.get(0);
     String idWeather = weatherData.get("id").toString();
     String description = (String) weatherData.get("description");
+    JSONObject main = (JSONObject) json.get("main"); 
 
-
-    return new Weather(idWeather, description);
+    //TODO Get temp from JSON and input it into this call
+    return new Weather(idWeather, description, 0);
   }
 
 
