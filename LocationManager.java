@@ -64,10 +64,11 @@ public class LocationManager {
     JSONObject weatherData = (JSONObject) weatherArray.get(0);
     String idWeather = weatherData.get("id").toString();
     String description = (String) weatherData.get("description");
-    JSONObject main = (JSONObject) json.get("main"); 
+    JSONObject main = (JSONObject) json.get("main");
+    double tempKelvin = (double)main.get("temp");
 
-    //TODO Get temp from JSON and input it into this call
-    return new Weather(idWeather, description, 0);
+    
+    return new Weather(idWeather, description, tempKelvin);
   }
 
 
