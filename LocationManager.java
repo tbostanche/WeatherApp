@@ -35,6 +35,14 @@ public class LocationManager {
   public Set<String> getAllLocations() {
     return locations.keySet();
   }
+  
+  public Location getLocation(String name) throws IllegalArgumentException {
+    if (!locations.containsKey(name)) {
+      throw new IllegalArgumentException();
+    }
+    
+    return locations.get(name);
+  }
 
   /**
    * Returns the current weather of a given city in the form of a Weather object

@@ -28,7 +28,7 @@ public class Weather {
     return description;
   }
   
-  public double Temp() {
+  public double getTemp() {
     return temp;
   }
   
