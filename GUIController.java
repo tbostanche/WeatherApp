@@ -1,6 +1,8 @@
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Set;
+import org.controlsfx.control.textfield.TextFields;
 import org.json.simple.parser.ParseException;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableArray;
@@ -10,14 +12,12 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 
 public class GUIController {
   private LocationManager lm;
-
-  @FXML
-  private ComboBox<String> citySelector;
 
   @FXML
   private Label currentTemp;
@@ -30,6 +30,9 @@ public class GUIController {
 
   @FXML
   private Label currentLat;
+  
+  @FXML
+  private TextField citySearchBar;
 
 
   public GUIController() {
@@ -37,18 +40,19 @@ public class GUIController {
 
   public void initialize() {
     lm = new LocationManager();
-    ObservableList<String> cities = FXCollections.observableArrayList();
+    ArrayList<String> cities = new ArrayList<String>();
+    
 
 
     for (String location : lm.getAllLocations()) {
       cities.add(location);
     }
     Collections.sort(cities);
-    citySelector.setItems(cities);;
+    TextFields.bindAutoCompletion(citySearchBar, cities);
   }
 
   public void updateWeather(ActionEvent event) {
-    String citySelected = citySelector.getValue();
+    String citySelected = citySearchBar.getText();
     try {
       Location selected = lm.getLocation(citySelected);
       Weather selectedData = lm.getWeatherData(citySelected);

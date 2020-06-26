@@ -32,6 +32,7 @@ public class LocationManager {
     locations.put("London", new Location("2643743", 51.50853, -0.12574, "London", "GB"));
   }
   
+  
   public Set<String> getAllLocations() {
     return locations.keySet();
   }
