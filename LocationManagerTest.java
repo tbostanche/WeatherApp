@@ -18,11 +18,16 @@ public class LocationManagerTest {
   @Test
   public void test000_Check_Temperature_Is_Collected() {
     try {
-      Weather test = lm.getWeatherData("Chicago");
+      Weather test = lm.getWeatherData("Chicago, IL, United States");
       assert (test.temp != 0);
     } catch (Exception e) {
       e.printStackTrace();
       fail();
     }
+  }
+  
+  @Test
+  public void test001_Check_Table_Is_Built_Successfully() {
+    assert(lm.getAllLocations().size() > 5);
   }
 }

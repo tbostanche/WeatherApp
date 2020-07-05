@@ -1,3 +1,5 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -14,10 +16,11 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 
 public class LocationManager {
-  // HM is temporary, will replace with a Trie in final application
+
   private HashMap<String, Location> locations;
   private HttpClient client;
   private final String key;
+  private static final String CITY_FILE_PATH = "city.list.json";
 
   /**
    * No-args constructor
@@ -26,10 +29,35 @@ public class LocationManager {
     client = HttpClient.newHttpClient();
     key = Secure.APIKEY; // Stores API key, supplement with your own if you wish to use this program
     locations = new HashMap<String, Location>();
-
-    // This is for testing, final product will be a Trie
-    locations.put("Chicago", new Location("4887398", 41.850029, -87.650047, "Chicago", "US"));
-    locations.put("London", new Location("2643743", 51.50853, -0.12574, "London", "GB"));
+    try {
+      buildTable();
+    } catch (FileNotFoundException e1) {
+      e1.printStackTrace();
+    } catch (IOException e2) {
+      e2.printStackTrace();
+    } catch (ParseException e3) {
+      e3.printStackTrace();
+    }
+  }
+  
+  private void buildTable() throws FileNotFoundException, IOException, ParseException {
+    Object obj = new JSONParser().parse(new FileReader("city.list.json")); 
+    JSONArray cityArray = (JSONArray) obj;
+    
+    for (Object object : cityArray) {
+      JSONObject location = (JSONObject) object;
+      String id =  location.get("id").toString();
+      JSONObject coord = (JSONObject) location.get("coord");
+      String lon = coord.get("lon").toString();
+      String lat = coord.get("lat").toString();
+      String name = (String) location.get("name");
+      String state = (String) location.get("state");
+      String country = (String) location.get("country");
+      
+      Location locationObj = new Location(id, Double.parseDouble(lat), Double.parseDouble(lon), name, state, country);
+      locations.put(locationObj.toString(), locationObj);
+      
+    }
   }
   
   
